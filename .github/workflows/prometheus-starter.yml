@@ -31,9 +31,19 @@ jobs:
           docker compose up -d
       - name: Wait for services to be ready
         run: |
-          # Simple check for app
-          for i in {1..10}; do
-            curl -s http://localhost:8080/metrics && break || sleep 5
+          echo "Waiting for app..."
+          for i in {1..20}; do
+            curl -s http://localhost:8080/metrics && echo "App is ready" && break || (echo "Waiting..." && sleep 5)
+          done
+          
+          echo "Waiting for Prometheus..."
+          for i in {1..20}; do
+            curl -s http://localhost:9090/-/healthy && echo "Prometheus is ready" && break || (echo "Waiting..." && sleep 5)
+          done
+          
+          echo "Waiting for Grafana..."
+          for i in {1..20}; do
+            curl -s http://localhost:3000/api/health && echo "Grafana is ready" && break || (echo "Waiting..." && sleep 5)
           done
       - name: Check Connectivity
         run: |
