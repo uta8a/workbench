@@ -4,7 +4,7 @@
     'config:recommended',
   ],
   timezone: 'Asia/Tokyo',
-  minimumReleaseAge: ' days',
+  minimumReleaseAge: '3 days',
   schedule: [
     'on monday',
   ],
