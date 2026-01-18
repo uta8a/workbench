@@ -1,0 +1,63 @@
+name: Prometheus Starter CI
+
+on:
+  push:
+    paths:
+      - 'prometheus-starter/**'
+      - '.github/workflows/prometheus-starter.yml'
+  pull_request:
+    paths:
+      - 'prometheus-starter/**'
+      - '.github/workflows/prometheus-starter.yml'
+
+jobs:
+  test-app:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+      - uses: jdx/mise-action@146a28175021df8ca24f8ee1828cc2a60f980bd5 # v3.5.1
+      - name: Test
+        run: |
+          cd prometheus-starter/app
+          go test -v ./...
+
+  integration-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+      - name: Start services
+        run: |
+          cd prometheus-starter
+          docker compose up -d
+      - name: Wait for services to be ready
+        run: |
+          echo "Waiting for app..."
+          for i in {1..20}; do
+            curl -s http://localhost:8080/metrics && echo "App is ready" && break || (echo "Waiting..." && sleep 5)
+          done
+          
+          echo "Waiting for Prometheus..."
+          for i in {1..20}; do
+            curl -s http://localhost:9090/-/healthy && echo "Prometheus is ready" && break || (echo "Waiting..." && sleep 5)
+          done
+          
+          echo "Waiting for Grafana..."
+          for i in {1..20}; do
+            curl -s http://localhost:3000/api/health && echo "Grafana is ready" && break || (echo "Waiting..." && sleep 5)
+          done
+      - name: Check Connectivity
+        run: |
+          echo "Checking app health..."
+          curl -f http://localhost:8080/ || exit 1
+          
+          echo "Checking Prometheus health..."
+          curl -f http://localhost:9090/-/healthy || exit 1
+          
+          echo "Checking Grafana health..."
+          curl -f http://localhost:3000/api/health || exit 1
+
+      - name: Stop services
+        if: always()
+        run: |
+          cd prometheus-starter
+          docker compose down
