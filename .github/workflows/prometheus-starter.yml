@@ -1,0 +1,53 @@
+name: Prometheus Starter CI
+
+on:
+  push:
+    paths:
+      - 'prometheus-starter/**'
+      - '.github/workflows/prometheus-starter.yml'
+  pull_request:
+    paths:
+      - 'prometheus-starter/**'
+      - '.github/workflows/prometheus-starter.yml'
+
+jobs:
+  test-app:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+      - uses: jdx/mise-action@508351502476b70ad2559556d3575971a8126e8a # v2.1.11
+      - name: Test
+        run: |
+          cd prometheus-starter/app
+          go test -v ./...
+
+  integration-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+      - name: Start services
+        run: |
+          cd prometheus-starter
+          docker compose up -d
+      - name: Wait for services to be ready
+        run: |
+          # Simple check for app
+          for i in {1..10}; do
+            curl -s http://localhost:8080/metrics && break || sleep 5
+          done
+      - name: Check Connectivity
+        run: |
+          echo "Checking app health..."
+          curl -f http://localhost:8080/ || exit 1
+          
+          echo "Checking Prometheus health..."
+          curl -f http://localhost:9090/-/healthy || exit 1
+          
+          echo "Checking Grafana health..."
+          curl -f http://localhost:3000/api/health || exit 1
+
+      - name: Stop services
+        if: always()
+        run: |
+          cd prometheus-starter
+          docker compose down

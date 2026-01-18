@@ -1,0 +1,30 @@
+name: Image Hash Check
+
+on:
+  push:
+    paths:
+      - '**/compose.yaml'
+      - '**/docker-compose.yml'
+      - '.github/workflows/image-hash-check.yml'
+  pull_request:
+    paths:
+      - '**/compose.yaml'
+      - '**/docker-compose.yml'
+      - '.github/workflows/image-hash-check.yml'
+
+jobs:
+  check-hash:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+      - uses: jdx/mise-action@508351502476b70ad2559556d3575971a8126e8a # v2.1.11
+
+      - name: Check image hashes
+        run: |
+          chmod +x ./scripts/check-unfixed-imagehash.sh
+          
+          # Find all compose files and check them
+          find . -type f \( -name "compose.yaml" -o -name "docker-compose.yml" \) | while read -r file; do
+            echo "Checking $file"
+            ./scripts/check-unfixed-imagehash.sh "$file"
+          done

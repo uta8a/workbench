@@ -1,0 +1,21 @@
+name: GitHub Actions Pin Check
+
+on:
+  push:
+    paths:
+      - '.github/workflows/**'
+      - '.github/actions/**'
+  pull_request:
+    paths:
+      - '.github/workflows/**'
+      - '.github/actions/**'
+
+jobs:
+  pin-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+      - uses: jdx/mise-action@508351502476b70ad2559556d3575971a8126e8a # v2.1.11
+      - name: Pin check
+        run: |
+          pinact run --check
