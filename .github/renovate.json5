@@ -6,7 +6,7 @@
   "timezone": "Asia/Tokyo",
   "minimumReleaseAge": "7 days",
   "schedule": [
-    "at any time on Monday"
+    "on monday"
   ],
   "packageRules": [
     {
@@ -17,7 +17,7 @@
         "gomod"
       ],
       "groupName": "all-dependencies",
-      "groupDescription": "Group updates for mise, docker, and go.mod"
+      "description": "Group updates for mise, docker, and go.mod"
     }
   ]
 }
