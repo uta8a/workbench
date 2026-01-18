@@ -76,5 +76,5 @@ done < "$FILE" > "$TMP"
 if [ "$DRY_RUN" = true ]; then
   cat "$TMP"
 else
-  cp "$TMP" "$FILE"
+  cp "$TMP" "$FILE" || { echo "Error: Failed to update '$FILE'. Please check your write permissions." >&2; exit 1; }
 fi
