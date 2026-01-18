@@ -1,23 +1,23 @@
 {
-  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "config:base"
+  $schema: 'https://docs.renovatebot.com/renovate-schema.json',
+  extends: [
+    'config:recommended',
   ],
-  "timezone": "Asia/Tokyo",
-  "minimumReleaseAge": "3 days",
-  "schedule": [
-    "on monday"
+  timezone: 'Asia/Tokyo',
+  minimumReleaseAge: ' days',
+  schedule: [
+    'on monday',
   ],
-  "packageRules": [
+  packageRules: [
     {
-      "matchManagers": [
-        "mise",
-        "docker-compose",
-        "dockerfile",
-        "gomod"
+      matchManagers: [
+        'mise',
+        'docker-compose',
+        'dockerfile',
+        'gomod',
       ],
-      "groupName": "all-dependencies",
-      "description": "Group updates for mise, docker, and go.mod"
-    }
-  ]
+      groupName: 'all-dependencies',
+      description: 'Group updates for mise, docker, and go.mod',
+    },
+  ],
 }
