@@ -4,6 +4,7 @@
     "config:base"
   ],
   "timezone": "Asia/Tokyo",
+  "minimumReleaseAge": "7 days",
   "schedule": [
     "at any time on Monday"
   ],
