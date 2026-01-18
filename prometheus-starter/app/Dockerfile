@@ -5,7 +5,8 @@ RUN go mod download
 COPY . .
 RUN go build -o main .
 
-FROM alpine@sha256:1882fa4569e0c591ea092d3766c4893e19b8901a8e649de7067188aba3cc0679 # alpine:latest
+# alpine:latest
+FROM alpine@sha256:1882fa4569e0c591ea092d3766c4893e19b8901a8e649de7067188aba3cc0679
 WORKDIR /root/
 COPY --from=builder /app/main .
 EXPOSE 8080
