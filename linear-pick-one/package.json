@@ -1,0 +1,25 @@
+{
+    "name": "linear-pick-one",
+    "version": "1.0.0",
+    "description": "Fetch tasks from Linear view and pick one randomly",
+    "type": "module",
+    "scripts": {
+        "build": "tsc",
+        "test": "vitest run",
+        "test:watch": "vitest",
+        "fetch": "tsx src/fetch-tasks.ts",
+        "pick": "./scripts/pick-random.sh"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "MIT",
+    "dependencies": {
+        "@linear/sdk": "^71.0.0"
+    },
+    "devDependencies": {
+        "@types/node": "^22.0.0",
+        "tsx": "^4.0.0",
+        "typescript": "^5.0.0",
+        "vitest": "^3.0.0"
+    }
+}
