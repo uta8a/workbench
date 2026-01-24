@@ -16,7 +16,8 @@ export interface ParsedViewUrl {
  * Parse a Linear view URL and extract the view ID
  */
 export function parseViewUrl(url: string): ParsedViewUrl {
-  const viewUrlPattern = /^https:\/\/linear\.app\/[^\/]+\/view\/([a-zA-Z0-9-]+)\/?$/;
+  // Allow percent-encoded characters (e.g., Japanese characters like %E3%82%BF)
+  const viewUrlPattern = /^https:\/\/linear\.app\/[^\/]+\/view\/([a-zA-Z0-9%_-]+)\/?$/;
   const match = url.match(viewUrlPattern);
   
   if (!match) {

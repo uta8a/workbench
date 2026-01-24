@@ -18,6 +18,14 @@ describe("parseViewUrl", () => {
     });
   });
 
+  it("should extract viewId from URL with percent-encoded characters", () => {
+    const url = "https://linear.app/my-team/view/%E3%82%B5%E3%83%B3%E3%83%97%E3%83%AB-abcdef123";
+    const result = parseViewUrl(url);
+    expect(result).toEqual({
+      viewId: "%E3%82%B5%E3%83%B3%E3%83%97%E3%83%AB-abcdef123",
+    });
+  });
+
   it("should throw error for invalid URL", () => {
     const url = "https://linear.app/my-team/issue/ABC-123";
     expect(() => parseViewUrl(url)).toThrow("Invalid Linear view URL");
