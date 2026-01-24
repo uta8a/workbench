@@ -19,5 +19,15 @@
       groupName: 'all-dependencies',
       description: 'Group updates for mise, docker, and go.mod',
     },
+    {
+      matchManagers: [
+        'npm',
+      ],
+      matchFileNames: [
+        'linear-pick-one/**',
+      ],
+      groupName: 'linear-pick-one-dependencies',
+      description: 'Group npm updates for linear-pick-one',
+    },
   ],
 }
