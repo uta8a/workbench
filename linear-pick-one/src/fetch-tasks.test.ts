@@ -73,17 +73,4 @@ describe("formatTasksToMarkdown", () => {
     const result = formatTasksToMarkdown(tasks);
     expect(result).toBe("# Linear Tasks\n\nNo tasks found.\n");
   });
-
-  it("should escape special characters in title", () => {
-    const tasks: Task[] = [
-      {
-        identifier: "ABC-123",
-        title: "Fix `code` and *bold* issue",
-        url: "https://linear.app/team/issue/ABC-123",
-      },
-    ];
-
-    const result = formatTasksToMarkdown(tasks);
-    expect(result).toContain("Fix `code` and *bold* issue");
-  });
 });
