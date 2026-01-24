@@ -2,6 +2,7 @@
     "name": "linear-pick-one",
     "version": "1.0.0",
     "description": "Fetch tasks from Linear view and pick one randomly",
+    "private": true,
     "type": "module",
     "scripts": {
         "build": "tsc",
