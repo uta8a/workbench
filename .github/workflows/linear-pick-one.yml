@@ -1,0 +1,30 @@
+name: Linear Pick One CI
+
+on:
+  push:
+    paths:
+      - 'linear-pick-one/**'
+      - '.github/workflows/linear-pick-one.yml'
+  pull_request:
+    paths:
+      - 'linear-pick-one/**'
+      - '.github/workflows/linear-pick-one.yml'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+      - uses: jdx/mise-action@146a28175021df8ca24f8ee1828cc2a60f980bd5 # v3.5.1
+      - name: Install dependencies
+        run: |
+          cd linear-pick-one
+          pnpm install --frozen-lockfile
+      - name: Type check
+        run: |
+          cd linear-pick-one
+          pnpm typecheck
+      - name: Test
+        run: |
+          cd linear-pick-one
+          pnpm test
