@@ -43,8 +43,18 @@ echo "🎲 Randomly selected task:"
 echo "=========================="
 
 # Find the task details in the file
-# Extract the section for this task
-awk "/^## ${SELECTED_TASK}$/,/^## [A-Z]+-[0-9]+$|^$/" "$LATEST_FILE" | head -n -1
+# Extract the section for this task using grep with line numbers
+START_LINE=$(grep -n "^## ${SELECTED_TASK}$" "$LATEST_FILE" | cut -d: -f1)
+if [ -n "$START_LINE" ]; then
+  # Find the next section or end of file
+  NEXT_SECTION_LINE=$(tail -n +$((START_LINE + 1)) "$LATEST_FILE" | grep -n "^## " | head -n 1 | cut -d: -f1)
+  if [ -n "$NEXT_SECTION_LINE" ]; then
+    END_LINE=$((START_LINE + NEXT_SECTION_LINE - 1))
+    sed -n "${START_LINE},${END_LINE}p" "$LATEST_FILE"
+  else
+    # No next section, print to end of file
+    tail -n +"$START_LINE" "$LATEST_FILE"
+  fi
+fi
 
-echo ""
 echo "=========================="
