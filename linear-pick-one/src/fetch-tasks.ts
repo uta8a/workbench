@@ -49,7 +49,7 @@ export function formatTasksToMarkdown(tasks: Task[]): string {
 }
 
 /**
- * Fetch tasks from a Linear view
+ * Fetch all tasks from a Linear view (handles pagination)
  */
 export async function fetchTasksFromView(
   client: LinearClient,
@@ -61,13 +61,24 @@ export async function fetchTasksFromView(
     throw new Error(`View not found: ${viewId}`);
   }
 
-  const issues = await customView.issues();
-  
-  const tasks: Task[] = issues.nodes.map((issue) => ({
-    identifier: issue.identifier,
-    title: issue.title,
-    url: issue.url,
-  }));
+  const tasks: Task[] = [];
+  let hasNextPage = true;
+  let cursor: string | undefined;
+
+  while (hasNextPage) {
+    const issues = await customView.issues({ first: 100, after: cursor });
+    
+    for (const issue of issues.nodes) {
+      tasks.push({
+        identifier: issue.identifier,
+        title: issue.title,
+        url: issue.url,
+      });
+    }
+
+    hasNextPage = issues.pageInfo.hasNextPage;
+    cursor = issues.pageInfo.endCursor ?? undefined;
+  }
 
   return tasks;
 }
