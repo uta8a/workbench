@@ -1,6 +1,9 @@
 #!/bin/bash
 set -euo pipefail
 
+# This script is intended to be run interactively from the terminal.
+# It prompts for user confirmation and should not be used in automated pipelines.
+
 # Usage: ./scripts/copy-to-repo.sh <source-dir> <target-repo-path> [target-dir-name] [--dry-run]
 # Example: ./scripts/copy-to-repo.sh source-directory ~/workspace/target-directory
 # Example: ./scripts/copy-to-repo.sh source-directory ~/workspace/target-directory --dry-run
@@ -74,7 +77,9 @@ fi
 # Check if target already exists
 if [ -d "$TARGET_PATH" ]; then
     echo "Warning: Target directory '$TARGET_PATH' already exists"
-    read -p "Overwrite? (y/N): " confirm
+    # Read from /dev/tty to ensure interactive input even if stdin is redirected.
+    # This script is designed for interactive use only.
+    read -r -p "Overwrite? (y/N): " confirm < /dev/tty
     if [ "$confirm" != "y" ] && [ "$confirm" != "Y" ]; then
         echo "Aborted"
         exit 0
