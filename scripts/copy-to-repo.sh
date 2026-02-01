@@ -86,7 +86,8 @@ fi
 echo "Copying git-tracked files from '$SOURCE_DIR' to '$TARGET_PATH'..."
 
 # Use git ls-files to get only tracked files
-git ls-files "$SOURCE_DIR" | while read -r file; do
+# Use process substitution to run while loop in current shell for proper error handling with set -e
+while read -r file; do
     # Calculate relative path within source directory
     rel_path="${file#$SOURCE_DIR/}"
     target_file="$TARGET_PATH/$rel_path"
@@ -96,7 +97,7 @@ git ls-files "$SOURCE_DIR" | while read -r file; do
     
     # Copy the file
     cp "$file" "$target_file"
-done
+done < <(git ls-files "$SOURCE_DIR")
 
 # Count copied files
 file_count=$(git ls-files "$SOURCE_DIR" | wc -l)
