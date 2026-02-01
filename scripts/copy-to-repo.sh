@@ -5,6 +5,15 @@ set -euo pipefail
 # Example: ./scripts/copy-to-repo.sh source-directory ~/workspace/target-directory
 # Example: ./scripts/copy-to-repo.sh source-directory ~/workspace/target-directory --dry-run
 
+# Ensure script is run from repository root
+REPO_ROOT=$(git rev-parse --show-toplevel 2>/dev/null)
+if [ "$PWD" != "$REPO_ROOT" ]; then
+    echo "Error: This script must be run from the repository root"
+    echo "Current directory: $PWD"
+    echo "Repository root: $REPO_ROOT"
+    exit 1
+fi
+
 DRY_RUN=false
 
 # Parse arguments
