@@ -1,0 +1,116 @@
+#!/bin/bash
+set -euo pipefail
+
+# This script is intended to be run interactively from the terminal.
+# It prompts for user confirmation and should not be used in automated pipelines.
+
+# Usage: ./scripts/copy-to-repo.sh <source-dir> <target-repo-path> [target-dir-name] [--dry-run]
+# Example: ./scripts/copy-to-repo.sh source-directory ~/workspace/target-directory
+# Example: ./scripts/copy-to-repo.sh source-directory ~/workspace/target-directory --dry-run
+
+# Ensure script is run from repository root
+REPO_ROOT=$(git rev-parse --show-toplevel 2>/dev/null)
+if [ "$PWD" != "$REPO_ROOT" ]; then
+    echo "Error: This script must be run from the repository root"
+    echo "Current directory: $PWD"
+    echo "Repository root: $REPO_ROOT"
+    exit 1
+fi
+
+DRY_RUN=false
+
+# Parse arguments
+POSITIONAL_ARGS=()
+for arg in "$@"; do
+    case $arg in
+        --dry-run)
+            DRY_RUN=true
+            ;;
+        *)
+            POSITIONAL_ARGS+=("$arg")
+            ;;
+    esac
+done
+
+if [ ${#POSITIONAL_ARGS[@]} -lt 2 ]; then
+    echo "Usage: $0 <source-dir> <target-repo-path> [target-dir-name] [--dry-run]"
+    echo "Example: $0 source-directory ~/workspace/target-directory"
+    echo "Example: $0 source-directory ~/workspace/target-directory --dry-run"
+    exit 1
+fi
+
+SOURCE_DIR="${POSITIONAL_ARGS[0]}"
+TARGET_REPO="${POSITIONAL_ARGS[1]}"
+TARGET_DIR_NAME="${POSITIONAL_ARGS[2]:-$(basename "$SOURCE_DIR")}"
+
+# Validate source directory exists
+if [ ! -d "$SOURCE_DIR" ]; then
+    echo "Error: Source directory '$SOURCE_DIR' does not exist"
+    exit 1
+fi
+
+# Validate target repo exists (skip in dry-run mode)
+if [ "$DRY_RUN" = false ] && [ ! -d "$TARGET_REPO" ]; then
+    echo "Error: Target repository '$TARGET_REPO' does not exist"
+    exit 1
+fi
+
+TARGET_PATH="$TARGET_REPO/$TARGET_DIR_NAME"
+
+# Dry run mode: just list files
+if [ "$DRY_RUN" = true ]; then
+    echo "=== Dry Run Mode ==="
+    echo "Source: $SOURCE_DIR"
+    echo "Target: $TARGET_PATH"
+    echo ""
+    echo "Files to copy:"
+    git ls-files "$SOURCE_DIR" | while read -r file; do
+        rel_path="${file#$SOURCE_DIR/}"
+        echo "  $file -> $TARGET_PATH/$rel_path"
+    done
+    echo ""
+    file_count=$(git ls-files "$SOURCE_DIR" | wc -l)
+    echo "Total: $file_count files"
+    exit 0
+fi
+
+# Check if target already exists
+if [ -d "$TARGET_PATH" ]; then
+    echo "Warning: Target directory '$TARGET_PATH' already exists"
+    # Read from /dev/tty to ensure interactive input even if stdin is redirected.
+    # This script is designed for interactive use only.
+    read -r -p "Overwrite? (y/N): " confirm < /dev/tty
+    if [ "$confirm" != "y" ] && [ "$confirm" != "Y" ]; then
+        echo "Aborted"
+        exit 0
+    fi
+    rm -rf "$TARGET_PATH"
+fi
+
+# Get list of git-tracked files in the source directory
+echo "Copying git-tracked files from '$SOURCE_DIR' to '$TARGET_PATH'..."
+
+# Use git ls-files to get only tracked files
+# Use process substitution to run while loop in current shell for proper error handling with set -e
+while read -r file; do
+    # Calculate relative path within source directory
+    rel_path="${file#$SOURCE_DIR/}"
+    target_file="$TARGET_PATH/$rel_path"
+    
+    # Create target directory if needed
+    mkdir -p "$(dirname "$target_file")"
+    
+    # Copy the file
+    cp "$file" "$target_file"
+done < <(git ls-files "$SOURCE_DIR")
+
+# Count copied files
+file_count=$(git ls-files "$SOURCE_DIR" | wc -l)
+echo "Copied $file_count files"
+
+echo "Done!"
+echo ""
+echo "Next steps:"
+echo "  cd $TARGET_REPO"
+echo "  git add $TARGET_DIR_NAME"
+echo "  git commit -m 'Add $TARGET_DIR_NAME from workbench'"
