@@ -16,7 +16,7 @@ services:
       - monitoring
 
   grafana:
-    image: grafana/grafana@sha256:7c064e627d9cb50c3485c9ded5ca0222de89a08e41403322a0c3ca6f1777a8d1 # grafana/grafana:latest
+    image: grafana/grafana@sha256:5c1eb28c96c2a8a103384183fb2c32f9cb499904b310b9ba8cdd6bdae435509a # grafana/grafana:latest
     volumes:
       - ./grafana/provisioning:/etc/grafana/provisioning
     ports:
