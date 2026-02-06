@@ -6,7 +6,7 @@ COPY . .
 RUN go build -o main .
 
 # alpine:latest
-FROM alpine@sha256:1882fa4569e0c591ea092d3766c4893e19b8901a8e649de7067188aba3cc0679
+FROM alpine@sha256:59855d3dceb3ae53991193bd03301e082b2a7faa56a514b03527ae0ec2ce3a95
 WORKDIR /root/
 COPY --from=builder /app/main .
 EXPOSE 8080
