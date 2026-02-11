@@ -1,7 +1,7 @@
 {
-    "name": "linear-pick-one",
+    "name": "linear-tools",
     "version": "1.0.0",
-    "description": "Fetch tasks from Linear view and pick one randomly",
+    "description": "Utilities for fetching and working with Linear task lists",
     "private": true,
     "type": "module",
     "scripts": {
@@ -10,6 +10,7 @@
         "test": "vitest run",
         "test:watch": "vitest",
         "fetch": "tsx src/fetch-tasks.ts",
+        "fetch:recently-done": "tsx src/fetch-recently-done.ts",
         "pick": "./scripts/pick-random.sh"
     },
     "keywords": [],

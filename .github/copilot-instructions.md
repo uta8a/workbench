@@ -23,13 +23,14 @@ This directory contains a complete setup for Prometheus, Grafana, a Go applicati
 - `scripts/fix-docker-compose-imagehash.sh`: Automatically updates `:latest` or tagged images in Compose files to their `sha256` digests, adding the original tag as a comment.
 - `scripts/check-unfixed-imagehash.sh`: Verifies that all images in a Compose file are pinned with `sha256`.
 
-## `linear-pick-one`
-A TypeScript tool to fetch tasks from a Linear custom view and pick one randomly.
+## `linear-tools`
+A TypeScript toolset to fetch task lists from Linear custom views and run helper commands.
 
 ### Usage
 1. Set `LINEAR_API_KEY` environment variable
 2. `pnpm fetch <linear-view-url>`: Fetch tasks and save to `linear/list-YYYY-MM-DD.md`
-3. `pnpm pick`: Randomly select one task from the latest list
+3. `pnpm fetch:recently-done <linear-view-url> [days]`: Save completed tasks within the last 7 days (or custom range) to `linear/recently-done-YYYY-MM-DD.md`
+4. `pnpm pick`: Randomly select one task from the latest list
 
 ### Development
 - Uses `@linear/sdk` for Linear API communication
