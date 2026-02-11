@@ -1,14 +1,14 @@
-name: Linear Pick One CI
+name: Linear Tools CI
 
 on:
   push:
     paths:
-      - 'linear-pick-one/**'
-      - '.github/workflows/linear-pick-one.yml'
+      - 'linear-tools/**'
+      - '.github/workflows/linear-tools.yml'
   pull_request:
     paths:
-      - 'linear-pick-one/**'
-      - '.github/workflows/linear-pick-one.yml'
+      - 'linear-tools/**'
+      - '.github/workflows/linear-tools.yml'
 
 jobs:
   test:
@@ -18,13 +18,13 @@ jobs:
       - uses: jdx/mise-action@6d1e696aa24c1aa1bcc1adea0212707c71ab78a8 # v3.6.1
       - name: Install dependencies
         run: |
-          cd linear-pick-one
+          cd linear-tools
           pnpm install --frozen-lockfile
       - name: Type check
         run: |
-          cd linear-pick-one
+          cd linear-tools
           pnpm typecheck
       - name: Test
         run: |
-          cd linear-pick-one
+          cd linear-tools
           pnpm test

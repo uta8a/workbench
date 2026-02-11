@@ -3,7 +3,7 @@
 ## Project Structure & Module Organization
 This repository is a small monorepo for development playgrounds.
 
-- `linear-pick-one/`: TypeScript CLI to fetch tasks from a Linear custom view and pick one task.
+- `linear-tools/`: TypeScript CLI utilities to fetch tasks from Linear custom views.
 - `prometheus-starter/`: Monitoring demo stack (Go app + Prometheus + Grafana + k6).
 - `scripts/`: Repository-wide maintenance scripts (for example image hash checks/fixes and copy helpers).
 - `.github/workflows/`: CI for each module and repository policy checks.
@@ -13,10 +13,10 @@ This repository is a small monorepo for development playgrounds.
 Run commands from the repository root unless noted.
 
 - `mise install`: Install pinned tool versions.
-- `cd linear-pick-one && pnpm install --frozen-lockfile`: Install JS dependencies.
-- `cd linear-pick-one && pnpm typecheck`: Run strict TypeScript checks.
-- `cd linear-pick-one && pnpm test`: Run Vitest tests once.
-- `cd linear-pick-one && pnpm build`: Compile to `dist/`.
+- `cd linear-tools && pnpm install --frozen-lockfile`: Install JS dependencies.
+- `cd linear-tools && pnpm typecheck`: Run strict TypeScript checks.
+- `cd linear-tools && pnpm test`: Run Vitest tests once.
+- `cd linear-tools && pnpm build`: Compile to `dist/`.
 - `cd prometheus-starter/app && go test -v ./...`: Run Go unit tests.
 - `cd prometheus-starter && docker compose up -d`: Start integration stack locally.
 - `./scripts/check-unfixed-imagehash.sh <compose-file>`: Verify images are SHA-pinned.
@@ -26,16 +26,16 @@ Run commands from the repository root unless noted.
 - Go: Follow `gofmt` defaults and idiomatic Go naming.
 - Tests: keep test files colocated with code (`*.test.ts`, `*_test.go`).
 - Scripts: Bash with `set -e`/`set -euo pipefail` where possible.
-- Keep module boundaries clear; avoid cross-module coupling between `linear-pick-one` and `prometheus-starter`.
+- Keep module boundaries clear; avoid cross-module coupling between `linear-tools` and `prometheus-starter`.
 
 ## Testing Guidelines
-- `linear-pick-one` uses `vitest` (`vitest run` in CI).
+- `linear-tools` uses `vitest` (`vitest run` in CI).
 - `prometheus-starter/app` uses Go’s standard `testing` package.
 - Add tests for behavior changes and bug fixes before merging.
 - For Compose changes, ensure images are pinned to `@sha256:...` digests or CI will fail.
 
 ## Commit & Pull Request Guidelines
-- Use Conventional-Commit-like prefixes seen in history: `feat:`, `fix:`, `chore:`, `docs:`, `ci:`, `test:` (optional scope, e.g. `fix(linear-pick-one): ...`).
+- Use Conventional-Commit-like prefixes seen in history: `feat:`, `fix:`, `chore:`, `docs:`, `ci:`, `test:` (optional scope, e.g. `fix(linear-tools): ...`).
 - Keep commits focused and reviewable.
 - PRs should include:
   - What changed and why.

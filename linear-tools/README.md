@@ -1,11 +1,12 @@
-# linear-pick-one
+# linear-tools
 
-Linear のカスタムビューからタスク一覧を取得し、ランダムに1つを選ぶツールです。
+Linear のカスタムビューからタスク一覧を取得するためのツール群です。  
+`Recently Done` ビューの直近1週間タスク一覧出力と、タスクのランダム選択に対応しています。
 
 ## セットアップ
 
 ```bash
-cd linear-pick-one
+cd linear-tools
 pnpm install
 ```
 
@@ -31,7 +32,23 @@ pnpm fetch "https://linear.app/your-team/view/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxx
 
 タスク一覧が `linear/list-YYYY-MM-DD.md` に保存されます。
 
-### 2. ランダムに1つ選ぶ
+### 2. Recently Done の直近タスク一覧を取得
+
+`Recently Done` ビュー URL を指定し、完了日が直近7日以内のタスクを出力します。
+
+```bash
+pnpm fetch:recently-done "https://linear.app/your-team/view/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+```
+
+任意で日数を指定できます（例: 14日）。
+
+```bash
+pnpm fetch:recently-done "https://linear.app/your-team/view/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" 14
+```
+
+出力は `linear/recently-done-YYYY-MM-DD.md` です。
+
+### 3. ランダムに1つ選ぶ
 
 ```bash
 pnpm pick
@@ -55,6 +72,18 @@ pnpm pick
 
 - **Title**: 別のタスク
 - **URL**: https://linear.app/team/issue/ABC-456
+```
+
+`linear/recently-done-YYYY-MM-DD.md` の形式:
+
+```markdown
+# Linear Recently Done Tasks (Last 7 Days)
+
+## ABC-123
+
+- **Title**: タスクのタイトル
+- **URL**: https://linear.app/team/issue/ABC-123
+- **Completed At**: 2026-02-10
 ```
 
 ## 開発

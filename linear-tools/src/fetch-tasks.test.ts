@@ -1,5 +1,11 @@
 import { describe, it, expect } from "vitest";
-import { parseViewUrl, formatTasksToMarkdown, type Task } from "./fetch-tasks";
+import {
+  parseViewUrl,
+  formatTasksToMarkdown,
+  formatRecentlyDoneTasksToMarkdown,
+  filterTasksCompletedWithinDays,
+  type Task,
+} from "./fetch-tasks";
 
 describe("parseViewUrl", () => {
   it("should extract viewId from Linear view URL", () => {
@@ -44,11 +50,13 @@ describe("formatTasksToMarkdown", () => {
         identifier: "ABC-123",
         title: "Fix bug",
         url: "https://linear.app/team/issue/ABC-123",
+        completedAt: null,
       },
       {
         identifier: "ABC-456",
         title: "Add feature",
         url: "https://linear.app/team/issue/ABC-456",
+        completedAt: null,
       },
     ];
 
@@ -72,5 +80,64 @@ describe("formatTasksToMarkdown", () => {
     const tasks: Task[] = [];
     const result = formatTasksToMarkdown(tasks);
     expect(result).toBe("# Linear Tasks\n\nNo tasks found.\n");
+  });
+});
+
+describe("filterTasksCompletedWithinDays", () => {
+  it("should keep only tasks completed in the last 7 days", () => {
+    const now = new Date("2026-02-11T00:00:00.000Z");
+    const tasks: Task[] = [
+      {
+        identifier: "ABC-001",
+        title: "Recent task",
+        url: "https://linear.app/team/issue/ABC-001",
+        completedAt: new Date("2026-02-10T12:00:00.000Z"),
+      },
+      {
+        identifier: "ABC-002",
+        title: "Old task",
+        url: "https://linear.app/team/issue/ABC-002",
+        completedAt: new Date("2026-02-01T12:00:00.000Z"),
+      },
+      {
+        identifier: "ABC-003",
+        title: "No completion date",
+        url: "https://linear.app/team/issue/ABC-003",
+        completedAt: null,
+      },
+      {
+        identifier: "ABC-004",
+        title: "Boundary task",
+        url: "https://linear.app/team/issue/ABC-004",
+        completedAt: new Date("2026-02-04T00:00:00.000Z"),
+      },
+    ];
+
+    const result = filterTasksCompletedWithinDays(tasks, 7, now);
+    expect(result.map((task) => task.identifier)).toEqual(["ABC-001", "ABC-004"]);
+  });
+});
+
+describe("formatRecentlyDoneTasksToMarkdown", () => {
+  it("should format recently done tasks to markdown list", () => {
+    const tasks: Task[] = [
+      {
+        identifier: "ABC-123",
+        title: "Fix bug",
+        url: "https://linear.app/team/issue/ABC-123",
+        completedAt: new Date("2026-02-10T12:00:00.000Z"),
+      },
+    ];
+
+    const result = formatRecentlyDoneTasksToMarkdown(tasks, 7);
+    const expected = `# Linear Recently Done Tasks (Last 7 Days)
+
+## ABC-123
+
+- **Title**: Fix bug
+- **URL**: https://linear.app/team/issue/ABC-123
+- **Completed At**: 2026-02-10
+`;
+    expect(result).toBe(expected);
   });
 });

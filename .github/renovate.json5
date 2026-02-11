@@ -24,10 +24,10 @@
         'npm',
       ],
       matchFileNames: [
-        'linear-pick-one/**',
+        'linear-tools/**',
       ],
-      groupName: 'linear-pick-one-dependencies',
-      description: 'Group npm updates for linear-pick-one',
+      groupName: 'linear-tools-dependencies',
+      description: 'Group npm updates for linear-tools',
     },
   ],
 }
