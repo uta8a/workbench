@@ -16,7 +16,7 @@ services:
       - monitoring
 
   grafana:
-    image: grafana/grafana@sha256:5c1eb28c96c2a8a103384183fb2c32f9cb499904b310b9ba8cdd6bdae435509a # grafana/grafana:latest
+    image: grafana/grafana@sha256:62a54c76afbeea0b8523b7afcd9e7ee1f0e39806035fd90ffc333a19e9358f2f # grafana/grafana:latest
     volumes:
       - ./grafana/provisioning:/etc/grafana/provisioning
     ports:
@@ -28,7 +28,7 @@ services:
       - monitoring
 
   k6:
-    image: grafana/k6@sha256:9e00f7d343a75b42fbc385965a1cfa5fa59d2bbc8e01341ef2a605d2cc380305 # grafana/k6:latest
+    image: grafana/k6@sha256:921615e9eca699e9b8b714dab1262f3ef760b061dc3800f5cc07107e653afd54 # grafana/k6:latest
     volumes:
       - ./k6:/scripts
     command: run /scripts/script.js
