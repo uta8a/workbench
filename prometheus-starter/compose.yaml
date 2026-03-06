@@ -7,7 +7,7 @@ services:
       - monitoring
 
   prometheus:
-    image: prom/prometheus@sha256:2024d7bdfc559f6254de22d65e62d799eaa8eb818fe5dbeca212d3f200b70890 # prom/prometheus:latest
+    image: prom/prometheus@sha256:82bb24e3e06c60145789c95653b187f9b73fe7012489a756a0c4fa490a7829f6 # prom/prometheus:latest
     volumes:
       - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
     ports:
@@ -16,7 +16,7 @@ services:
       - monitoring
 
   grafana:
-    image: grafana/grafana@sha256:62a54c76afbeea0b8523b7afcd9e7ee1f0e39806035fd90ffc333a19e9358f2f # grafana/grafana:latest
+    image: grafana/grafana@sha256:7ce8f1687d7aab0f1f16a7f1db64bf655a3de77b03e87bf474fdd883e3203cba # grafana/grafana:latest
     volumes:
       - ./grafana/provisioning:/etc/grafana/provisioning
     ports:
