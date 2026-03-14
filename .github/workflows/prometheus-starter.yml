@@ -5,6 +5,8 @@ on:
     paths:
       - 'prometheus-starter/**'
       - '.github/workflows/prometheus-starter.yml'
+    branches:
+      - main
   pull_request:
     paths:
       - 'prometheus-starter/**'
