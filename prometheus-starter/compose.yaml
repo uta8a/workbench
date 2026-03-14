@@ -7,7 +7,7 @@ services:
       - monitoring
 
   prometheus:
-    image: prom/prometheus@sha256:82bb24e3e06c60145789c95653b187f9b73fe7012489a756a0c4fa490a7829f6 # renovate: datasource=docker depName=prom/prometheus versioning=docker currentValue=v3.10.0
+    image: prom/prometheus:v3.10.0@sha256:82bb24e3e06c60145789c95653b187f9b73fe7012489a756a0c4fa490a7829f6
     volumes:
       - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
     ports:
@@ -16,7 +16,7 @@ services:
       - monitoring
 
   grafana:
-    image: grafana/grafana@sha256:fab4d86718ecf6aec45961ae01c5f743a955e11fad0adb8f43c5f52a961b5144 # renovate: datasource=docker depName=grafana/grafana versioning=docker currentValue=12.4.1
+    image: grafana/grafana:12.4.1@sha256:fab4d86718ecf6aec45961ae01c5f743a955e11fad0adb8f43c5f52a961b5144
     volumes:
       - ./grafana/provisioning:/etc/grafana/provisioning
     ports:
@@ -28,7 +28,7 @@ services:
       - monitoring
 
   k6:
-    image: grafana/k6@sha256:7964002c5c013ec7ad84182b028fca2666dcb8baba2c5c19b3e5e4f0f412d019 # renovate: datasource=docker depName=grafana/k6 versioning=docker currentValue=1.6.0
+    image: grafana/k6:1.6.0@sha256:7964002c5c013ec7ad84182b028fca2666dcb8baba2c5c19b3e5e4f0f412d019
     volumes:
       - ./k6:/scripts
     command: run /scripts/script.js
