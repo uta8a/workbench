@@ -6,6 +6,8 @@ on:
       - '**/compose.yaml'
       - '**/docker-compose.yml'
       - '.github/workflows/image-hash-check.yml'
+    branches:
+      - main
   pull_request:
     paths:
       - '**/compose.yaml'

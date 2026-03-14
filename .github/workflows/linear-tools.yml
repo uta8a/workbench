@@ -5,6 +5,8 @@ on:
     paths:
       - 'linear-tools/**'
       - '.github/workflows/linear-tools.yml'
+    branches:
+      - main
   pull_request:
     paths:
       - 'linear-tools/**'
