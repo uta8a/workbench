@@ -7,7 +7,7 @@ services:
       - monitoring
 
   prometheus:
-    image: prom/prometheus@sha256:2024d7bdfc559f6254de22d65e62d799eaa8eb818fe5dbeca212d3f200b70890 # prom/prometheus:latest
+    image: prom/prometheus@sha256:82bb24e3e06c60145789c95653b187f9b73fe7012489a756a0c4fa490a7829f6 # prom/prometheus:v3.10.0
     volumes:
       - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
     ports:
@@ -16,7 +16,7 @@ services:
       - monitoring
 
   grafana:
-    image: grafana/grafana@sha256:62a54c76afbeea0b8523b7afcd9e7ee1f0e39806035fd90ffc333a19e9358f2f # grafana/grafana:latest
+    image: grafana/grafana@sha256:fab4d86718ecf6aec45961ae01c5f743a955e11fad0adb8f43c5f52a961b5144 # grafana/grafana:12.4.1
     volumes:
       - ./grafana/provisioning:/etc/grafana/provisioning
     ports:
@@ -28,7 +28,7 @@ services:
       - monitoring
 
   k6:
-    image: grafana/k6@sha256:921615e9eca699e9b8b714dab1262f3ef760b061dc3800f5cc07107e653afd54 # grafana/k6:latest
+    image: grafana/k6@sha256:7964002c5c013ec7ad84182b028fca2666dcb8baba2c5c19b3e5e4f0f412d019 # grafana/k6:1.6.0
     volumes:
       - ./k6:/scripts
     command: run /scripts/script.js
