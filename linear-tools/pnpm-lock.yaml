@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@linear/sdk':
-        specifier: ^75.0.0
-        version: 75.0.0(graphql@16.12.0)
+        specifier: ^77.0.0
+        version: 77.0.0(graphql@16.12.0)
     devDependencies:
       '@types/node':
         specifier: ^24.0.0
@@ -191,8 +191,8 @@ packages:
   '@jridgewell/sourcemap-codec@1.5.5':
     resolution: {integrity: sha512-cYQ9310grqxueWbl+WuIUIaiUaDcj7WOq5fVhEljNVgRfOUhY9fy2zTvfoqWsnebh8Sl70VScFbICvJnLKB0Og==}
 
-  '@linear/sdk@75.0.0':
-    resolution: {integrity: sha512-gf/xmbiWc4cLHjoeOGCNVTglpy+M+ENHpP3bvU57wxD17s7j8zJGXp4wOStnRcQYR0FT+n/76fPp+XR3ZtEjDw==}
+  '@linear/sdk@77.0.0':
+    resolution: {integrity: sha512-pI7ZNh/UZF12JoVhCi8tdubYnCp2DJ1hkraMA+kDyYqjU+elKOVd5yAdN/SoAR17V7Kg8dtDabgArjknvUnQSA==}
     engines: {node: '>=18.x'}
 
   '@rollup/rollup-android-arm-eabi@4.56.0':
@@ -660,7 +660,7 @@ snapshots:
 
   '@jridgewell/sourcemap-codec@1.5.5': {}
 
-  '@linear/sdk@75.0.0(graphql@16.12.0)':
+  '@linear/sdk@77.0.0(graphql@16.12.0)':
     dependencies:
       '@graphql-typed-document-node/core': 3.2.0(graphql@16.12.0)
     transitivePeerDependencies:
