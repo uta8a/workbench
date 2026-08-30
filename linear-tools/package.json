@@ -17,12 +17,12 @@
     "author": "",
     "license": "MIT",
     "dependencies": {
-        "@linear/sdk": "^77.0.0"
+        "@linear/sdk": "^92.0.0"
     },
     "devDependencies": {
         "@types/node": "^24.0.0",
         "tsx": "^4.0.0",
-        "typescript": "^5.0.0",
+        "typescript": "^7.0.0",
         "vitest": "^4.0.0"
     }
 }
