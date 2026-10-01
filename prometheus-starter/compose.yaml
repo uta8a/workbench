@@ -28,7 +28,7 @@ services:
       - monitoring
 
   k6:
-    image: grafana/k6:1.6.1@sha256:a5ad6bc089a08d77c3ec49f3db8c6fa7a148e4073efcac44c675dbaf3568d8e1
+    image: grafana/k6:2.3.0@sha256:9c2dee7f8ed74d317e4027c06a10f169b625638189de8d4555d0b3486a5aeb34
     volumes:
       - ./k6:/scripts
     command: run /scripts/script.js
